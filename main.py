@@ -3,27 +3,27 @@ print("              PREPTRACK APPLICATION")
 print("=" * 50)
 # TODO: Validate that the student name is not empty.
 student_name = input("Enter student name: ")
-if student_name =="":
+while not student_name:
     print("Student name cannot be empty.")
+    student_name = input("Enter student name: ")
+
 registration_number = input("Enter registration number: ")
 graduation_year = int(input("Enter graduation year: "))
-while not(graduation_year>2025 and graduation_year<2027):
+while not (graduation_year >= 2025 and graduation_year <= 2027):
     graduation_year = int(input("graduation year:"))
 
 # TODO: Validate attendance between 0 and 100.
 attendance = float(input("Enter attendance percentage: "))
-while attendance<0 and attendance>100:
+while attendance < 0 or attendance > 100:
     attendance = float(input("attendance percentage:"))
 
 # TODO: Accept only yes or no.
 project_input = input("Has the student completed the required project? Enter yes or no: ")
-while project_input != 'yes' and project_input != 'no':
-    project_input = input("you need to enter yes or no")
+while project_input.lower() not in ["yes", "no"]:
+    project_input = input("Please enter yes or no: ")
 
 # TODO: Convert project_input into True or False.
-project_completed = False
-while project_completed == 'yes':
-    project_completed = True  
+project_completed = project_input.lower() == "yes" 
 
 # TODO: Accept only yes or no.
 profile_input = input("Is the student profile verified? Enter yes or no: ")
@@ -31,9 +31,7 @@ while profile_input not in ('yes','no'):
     profile_input = input("you need to enter yes or no")
 
 # TODO: Convert profile_input into True or False.
-profile_verified = False
-while profile_input == 'yes':
-    profile_verified == True
+profile_verified = profile_input.lower() == "yes"
 # --------------------------------------------------
 # 2. INITIALIZE COUNTERS AND VARIABLES
 # --------------------------------------------------
@@ -70,14 +68,9 @@ first_critical_score = 0
 for day in range(1, 8):
 
     # TODO: Use a while loop to accept only:
-    while True:
-    # -1 or a score between 0 and 100.
-        score = int(input(f"Enter Day {day} score from 0 to 100,or -1 for absent: "))
-    if score == -1 or (score>=0 and score<=100):
-        break
-    else:
-        print("Invalid Score Please enter a valid score between 0 and 100 ")
-
+    score = int(input(f"Enter Day {day} score from 0 to 100, or -1 for absent: "))
+    while score != -1 and (score < 0 or score > 100):
+        score = int(input("Invalid. Enter a score 0-100, or -1 for absent: "))
 
     # TODO: Handle absence.
     # Increase absent_days and use continue.
@@ -93,17 +86,45 @@ for day in range(1, 8):
     # TODO: Initialize or update:
     # highest_score, highest_score_day,
     # lowest_score and lowest_score_day.
+    if not first_attempt_found:
+        highest_score = score
+        highest_score_day = day
+        lowest_score = score
+        lowest_score_day = day
+        first_attempt_found = True
+    else:
+        if score > highest_score:
+            highest_score = score
+            highest_score_day = day
+        if score < lowest_score:
+            lowest_score = score
+            lowest_score_day = day
 
     # TODO: Classify the score:
     # 75–100  -> Strong
     # 60–74   -> Satisfactory
     # 40–59   -> Needs Improvement
     # 0–39    -> Critical
-    
+    if score>=75:
+        strong_days+=1
+    elif score >=60 and score <=74:
+        satisfactory_days+=1
+    elif score >=40 and score<=59:
+        improvement_days+=1
+    else:
+        critical_days+=1
 
     # TODO: Count passed and failed days.
-
+    if score >=40:
+        passed_days+=1
+    else:
+        failed_days+=1
+    
     # TODO: Store only the first critical day and score.
+    if score<40 and critical_score_found == False:
+        critical_score_found = True
+        first_critical_day = day
+        first_critical_score = score
 
 
 # --------------------------------------------------
@@ -111,8 +132,11 @@ for day in range(1, 8):
 # --------------------------------------------------
 
 # TODO: Prevent division by zero.
-average_score = 0
-
+# // average_score = 0
+if attempted_days > 0:
+    average_score = total_score / attempted_days
+else:
+    average_score = 0
 
 # --------------------------------------------------
 # 5. CREATE ELIGIBILITY CONDITIONS
@@ -160,6 +184,56 @@ placement_ready = (
 final_status = ""
 primary_blocker = ""
 next_action = ""
+if attempted_days == 0:
+    final_status = "Not Ready"
+    primary_blocker = "No practice attempted"
+    next_action = "Start attempting practice sessions"
+
+elif critical_score_found:
+    final_status = "Not Ready"
+    primary_blocker = f"Critical score found on Day {first_critical_day} ({first_critical_score})"
+    next_action = "Revise fundamentals and retake weak areas"
+
+elif not practice_count_eligible:
+    final_status = "Not Ready"
+    primary_blocker = "Fewer than six attempts"
+    next_action = "Complete remaining practice sessions"
+
+elif not passed_days_eligible:
+    final_status = "Not Ready"
+    primary_blocker = "Fewer than four passed days"
+    next_action = "Attempt more sessions to increase passed days"
+
+elif not average_eligible:
+    final_status = "Not Ready"
+    primary_blocker = "Average below 70"
+    next_action = "Improve consistency across sessions"
+
+elif not attendance_eligible:
+    final_status = "Not Ready"
+    primary_blocker = "Attendance below 75"
+    next_action = "Improve attendance"
+
+elif not graduation_eligible:
+    final_status = "Not Ready"
+    primary_blocker = "Graduation year not eligible"
+    next_action = "Check eligibility criteria for your batch"
+
+elif not project_completed:
+    final_status = "Not Ready"
+    primary_blocker = "Project incomplete"
+    next_action = "Complete the required project"
+
+elif not profile_verified:
+    final_status = "Not Ready"
+    primary_blocker = "Profile not verified"
+    next_action = "Get profile verified"
+
+else:
+    final_status = "Ready"
+    primary_blocker = "None"
+    next_action = "Proceed to Mock Interview"
+
 
 
 # --------------------------------------------------
@@ -194,9 +268,17 @@ print(f"Average Score          : {average_score:.2f}")
 
 # TODO: Display highest and lowest values only when
 # at least one practice was attempted.
+if first_attempt_found:
+    print()
+    print(f"Highest Score           : {highest_score} (Day {highest_score_day})")
+    print(f"Lowest Score            : {lowest_score} (Day {lowest_score_day})")
 
 # TODO: Display first critical details only when
 # a critical score exists.
+if critical_score_found:
+    print()
+    print(f"First Critical Day      : Day {first_critical_day}")
+    print(f"First Critical Score    : {first_critical_score}")
 
 print()
 print(f"Final Status           : {final_status}")
