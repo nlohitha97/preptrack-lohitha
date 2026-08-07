@@ -37,12 +37,23 @@ PrepTrack is a command-line Python application that tracks a student's practice 
 4. Follow the on-screen prompts to enter student details and daily scores.
 
 ## Test Result Summary
-The program was manually tested with multiple scenarios, including:
-- A student with all 7 days attempted and passing scores → Status: Ready
-- A student with one or more absent days → Absences correctly excluded from score calculations
-- A student with a critical score (below 40) → Correctly flagged as "Not Ready" with the first critical day/score shown
-- A student with fewer than 6 attempts → Correctly flagged as "Not Ready" due to insufficient attempts
-- Edge cases like attendance exactly at 75% and scores exactly at classification boundaries (40, 60, 75) → Verified correct classification
+
+| Test ID | Scenario                      | Expected Result                  | Actual Result                        | Status |
+| ------- | ------------------------------ | --------------------------------- | ---------------------------------- | ------ |
+| TC-01   | All requirements satisfied     | Ready for Mock Interview          | Ready for Mock Interview           | Pass   |
+| TC-02   | Critical score present         | Critical Support Required         | Critical Support Required          | Pass   |
+| TC-03   | Fewer than six attempts        | Practice Incomplete               | Practice Incomplete                | Pass   |
+| TC-04   | Fewer than four passes         | Insufficient Passed Practices     | Insufficient Passed Practices      | Pass   |
+| TC-05   | Average below 70               | Practice Improvement Required     | Practice Improvement Required      | Pass   |
+| TC-06   | Attendance below 75            | Attendance Improvement Required   | Attendance Improvement Required    | Pass   |
+| TC-07   | Graduation year not eligible   | Graduation Criteria Not Met       | Graduation Criteria Not Met        | Pass   |
+| TC-08   | Project incomplete             | Application On Hold               | Application On Hold                | Pass   |
+| TC-09   | Profile not verified           | Application On Hold               | Application On Hold                | Pass   |
+| TC-10   | All days absent                | Practice Not Evaluated            | Practice Not Evaluated             | Pass   |
+| TC-11   | Invalid low score              | Input rejected                    | Input rejected                     | Pass   |
+| TC-12   | Invalid high score             | Input rejected                    | Input rejected                     | Pass   |
+| TC-13   | Boundary scores                | Correct classifications           | Correct classifications            | Pass   |
+| TC-14   | Multiple blockers              | First blocker displayed           | First blocker displayed            | Pass   |
 
 ## Individual Contribution
 This project was completed individually by Lohitha, including:
