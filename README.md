@@ -64,9 +64,11 @@ This project was completed individually by Lohitha, including:
 - url: https://github.com/nlohitha97/preptrack-lohitha
 
 ## Code Review Completed
-- Self-reviewed the code for logical correctness (e.g., verifying priority order in eligibility checks).
-- Checked for common bugs like infinite loops, incorrect comparison operators, and division by zero.
-- Verified variable names and print statements matched the required output format.
+Found that the passed-day condition used `score >= 40` instead of `score >= 60` as required by the spec — corrected it to properly separate passed vs failed days.
+- Noticed that the highest/lowest score and critical-score sections were skipped entirely when not applicable, instead of showing proper "Not Available" / "Not Applicable" text — added fallback messages so the report never shows misleading blank or zero values.
+- Identified that the final report was missing clearly labeled sections and a few required fields (like Project Completed and Profile Verified status) — restructured the report layout to match the required format more closely.
+- Re-verified the final status priority order against the requirement list to confirm the most important blocker is always shown first.
+- Re-tested all 14 test cases after making these corrections to confirm the program still produces the expected results.
 
 ## Feedback Received
 - Received guidance on fixing input validation bugs (e.g., incorrect use of `and`/`or` in range checks, `==` vs `=` mistakes).
