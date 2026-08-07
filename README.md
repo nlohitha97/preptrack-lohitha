@@ -1,4 +1,4 @@
-# PrepTrack
+# PrepTrack — Placement Preparation Performance Analyzer
 
 ## Project Overview
 PrepTrack is a command-line Python application that tracks a student's practice performance across 7 days and determines their placement/mock-interview eligibility based on multiple criteria such as attendance, average score, project completion, and profile verification.
