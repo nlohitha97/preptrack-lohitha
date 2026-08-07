@@ -1,5 +1,8 @@
 # PrepTrack — Placement Preparation Performance Analyzer
 
+## Project Title
+PrepTrack — Placement Preparation Performance Analyzer
+
 ## Project Overview
 PrepTrack is a command-line Python application that tracks a student's practice performance across 7 days and determines their placement/mock-interview eligibility based on multiple criteria such as attendance, average score, project completion, and profile verification.
 
@@ -47,6 +50,7 @@ This project was completed individually by Lohitha, including:
 - Implementing the 7-day scoring loop and score classification
 - Building the eligibility and priority-based final status logic
 - Testing the program against multiple real and edge-case scenarios
+- url: https://github.com/nlohitha97/preptrack-lohitha
 
 ## Code Review Completed
 - Self-reviewed the code for logical correctness (e.g., verifying priority order in eligibility checks).
@@ -59,4 +63,5 @@ This project was completed individually by Lohitha, including:
 - Improved understanding of why `elif` chains are necessary for priority-based decisions instead of separate `if` blocks.
 
 ## Author
-Lohitha
+Lohitha Narasepalli
+
